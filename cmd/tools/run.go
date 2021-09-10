@@ -350,6 +350,12 @@ func main() {
 			ApproveUpdateChain(config.DefConfig.NeoChainID, poly, accArr)
 		}
 
+	case "update_zil":
+		accArr := getPolyAccounts(poly)
+		if UpdateZil(poly, acc) {
+			ApproveUpdateChain(config.DefConfig.ZilChainID, poly, accArr)
+		}
+
 	case "update_neo3":
 		accArr := getPolyAccounts(poly)
 		if UpdateNeo3(poly, acc) {
@@ -2270,6 +2276,20 @@ func UpdateNeo(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 		return false
 	}
 	if err = updateSideChain(poly, acc, config.DefConfig.NeoChainID, 4, blkToWait, "NEO", eccd[:]); err != nil {
+		log.Errorf("failed to update neo: %v", err)
+		return false
+	}
+	return true
+}
+
+func UpdateZil() {
+	blkToWait := uint64(1)
+	eccd, err := common2.AddressFromHexString(strings.TrimPrefix(config.DefConfig.ZilEccdImpl, "0x"))
+	if err != nil {
+		log.Errorf("failed to decode eccd: %v", err)
+		return false
+	}
+	if err = updateSideChain(poly, acc, config.DefConfig.ZilChainID, 9, blkToWait, "Zil", eccd[:]); err != nil {
 		log.Errorf("failed to update neo: %v", err)
 		return false
 	}
