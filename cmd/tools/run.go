@@ -2282,7 +2282,7 @@ func UpdateNeo(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 	return true
 }
 
-func UpdateZil() {
+func UpdateZil() bool {
 	blkToWait := uint64(1)
 	eccd, err := common2.AddressFromHexString(strings.TrimPrefix(config.DefConfig.ZilEccdImpl, "0x"))
 	if err != nil {
