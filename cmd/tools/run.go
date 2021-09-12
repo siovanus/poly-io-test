@@ -2290,7 +2290,7 @@ func UpdateNeo(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 
 func UpdateZil(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 	blkToWait := uint64(1)
-	eccd, err := common2.AddressFromHexString(strings.TrimPrefix(config.DefConfig.ZilEccdImpl, "0x"))
+	eccd, err := hex.DecodeString(strings.Replace(config.DefConfig.ZilEccdImpl, "0x", "", 1))
 	if err != nil {
 		log.Errorf("failed to decode eccd: %v", err)
 		return false
