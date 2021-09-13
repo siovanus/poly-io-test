@@ -356,12 +356,6 @@ func main() {
 			ApproveUpdateChain(config.DefConfig.ZilChainID, poly, accArr)
 		}
 
-	case "update_zil_extra":
-		accArr := getPolyAccounts(poly)
-		if UpdateZilExtra(poly, acc) {
-			ApproveUpdateChain(config.DefConfig.ZilChainID, poly, accArr)
-		}
-
 	case "update_neo3":
 		accArr := getPolyAccounts(poly)
 		if UpdateNeo3(poly, acc) {
@@ -2295,28 +2289,15 @@ func UpdateZil(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 		log.Errorf("failed to decode eccd: %v", err)
 		return false
 	}
-	if err = updateSideChain(poly, acc, config.DefConfig.ZilChainID, 9, blkToWait, "Zil", eccd[:]); err != nil {
-		log.Errorf("failed to update neo: %v", err)
-		return false
-	}
-	return true
-}
 
-func UpdateZilExtra(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 	type ExtraInfo struct {
 		NumOfGuardList int
 	}
 	extra := ExtraInfo{NumOfGuardList: 10}
 	extraBytes, _ := json.Marshal(extra)
 
-	blkToWait := uint64(1)
-	eccd, err := common2.AddressFromHexString(strings.TrimPrefix(config.DefConfig.ZilEccdImpl, "0x"))
-	if err != nil {
-		log.Errorf("failed to decode eccd: %v", err)
-		return false
-	}
-	if err := updateSideChainExt(poly, acc, config.DefConfig.ZilChainID, 9, blkToWait, "Zil", eccd[:], extraBytes); err != nil {
-		log.Errorf("failed to update neo3: %v", err)
+	if err = updateSideChainExt(poly, acc, config.DefConfig.ZilChainID, 9, blkToWait, "zil", eccd[:], extraBytes); err != nil {
+		log.Errorf("failed to update neo: %v", err)
 		return false
 	}
 	return true
