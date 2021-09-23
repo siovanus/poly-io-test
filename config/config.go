@@ -50,6 +50,7 @@ type TestConfig struct {
 	ZilChainID              uint64
 	HecoChainID             uint64
 	O3ChainID               uint64
+	ArbChainID              uint64
 	MscChainID              uint64
 	OkChainID               uint64
 	KaiChainID              uint64
@@ -97,6 +98,9 @@ type TestConfig struct {
 	// bor urls
 	BorURL        string
 	BorPrivateKey string
+	// arb urls
+	ArbURL        string
+	ArbPrivateKey string
 
 	// zil urls
 	ZilURL        string
@@ -251,6 +255,12 @@ type TestConfig struct {
 	BorEccm      string
 	BorEccmp     string
 	BorLockProxy string
+
+	// arb contracts
+	ArbEccd      string
+	ArbEccm      string
+	ArbEccmp     string
+	ArbLockProxy string
 
 	// zil contracts
 	ZilEccdProxy string
