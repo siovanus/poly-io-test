@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
-	github.com/Zilliqa/gozilliqa-sdk v1.2.1-0.20210406170702-178fd8166bae
+	github.com/Zilliqa/gozilliqa-sdk v1.2.1-0.20210927032600-4c733f2cb879
 	github.com/aristanetworks/goarista v0.0.0-20200331225509-2cc472e8fbd6 // indirect
 	github.com/btcsuite/btcd v0.21.0-beta
 	github.com/btcsuite/btcutil v1.0.2
