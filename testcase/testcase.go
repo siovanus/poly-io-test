@@ -1298,6 +1298,25 @@ func MscMxToMsc(ctx *testframework.TestFrameworkContext, status *testframework.C
 	return true
 }
 
+func EthToArb(ctx *testframework.TestFrameworkContext, status *testframework.CaseStatus) bool {
+	for i := uint64(0); i < config.DefConfig.BatchTxNum; i++ {
+		amt := GetRandAmount(config.DefConfig.EthValLimit, 1)
+		for j := uint64(0); j < config.DefConfig.TxNumPerBatch; j++ {
+			if err := SendEthCrossArb(ctx, status, amt); err != nil {
+				log.Errorf("EthToArb, SendEthCrossArb error: %v", err)
+				return false
+			}
+		}
+		log.Infof("EthToArb, send %d eth to Arb, waiting for confirmation...", amt)
+		WaitUntilClean(status)
+
+		log.Infof("EthToArb, eth all received ( batch: %d )", i)
+	}
+
+	status.SetItSuccess(1)
+	return true
+}
+
 func MaticToBor(ctx *testframework.TestFrameworkContext, status *testframework.CaseStatus) bool {
 	for i := uint64(0); i < config.DefConfig.BatchTxNum; i++ {
 		amt := GetRandAmount(config.DefConfig.EthValLimit, 1)

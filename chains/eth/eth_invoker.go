@@ -87,6 +87,8 @@ func (ethInvoker *EInvoker) url() string {
 		return ethInvoker.TConfiguration.KaiUrl
 	case ethInvoker.TConfiguration.PolygonBorChainID:
 		return ethInvoker.TConfiguration.BorURL
+	case ethInvoker.TConfiguration.ArbChainID:
+		return ethInvoker.TConfiguration.ArbURL
 	default:
 		panic(fmt.Sprintf("url:unknown chain id:%d", ethInvoker.ChainID))
 	}
@@ -112,6 +114,8 @@ func (ethInvoker *EInvoker) privateKey() string {
 		return ethInvoker.TConfiguration.KaiPrivateKey
 	case ethInvoker.TConfiguration.PolygonBorChainID:
 		return ethInvoker.TConfiguration.BorPrivateKey
+	case ethInvoker.TConfiguration.ArbChainID:
+		return ethInvoker.TConfiguration.ArbPrivateKey
 	default:
 		panic(fmt.Sprintf("privateKey:unknown chain id:%d", ethInvoker.ChainID))
 	}
@@ -133,8 +137,12 @@ func (ethInvoker *EInvoker) MakeSmartContractAuth() (*bind.TransactOpts, error) 
 		return nil, fmt.Errorf("MakeSmartContractAuth, %v", err)
 	}
 	var auth *bind.TransactOpts
-	if ethInvoker.ChainID == ethInvoker.TConfiguration.PolygonBorChainID {
-		auth, err = NewKeyedTransactorWithChainID(ethInvoker.PrivateKey, big.NewInt(int64(ethInvoker.TConfiguration.PolygonBorSignerChainID)))
+	if ethInvoker.ChainID == ethInvoker.TConfiguration.PolygonBorChainID || ethInvoker.ChainID == ethInvoker.TConfiguration.ArbChainID {
+		chainID, err := ethInvoker.ETHUtil.GetEthClient().ChainID(context.Background())
+		if err != nil {
+			return nil, fmt.Errorf("ChainID, %v", err)
+		}
+		auth, err = NewKeyedTransactorWithChainID(ethInvoker.PrivateKey, chainID)
 		if err != nil {
 			return nil, fmt.Errorf("NewKeyedTransactorWithChainID fail, %v", err)
 		}

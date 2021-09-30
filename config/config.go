@@ -51,6 +51,7 @@ type TestConfig struct {
 	HecoChainID             uint64
 	O3ChainID               uint64
 	ArbChainID              uint64
+	ArbSignerChainID        uint64
 	MscChainID              uint64
 	OkChainID               uint64
 	KaiChainID              uint64

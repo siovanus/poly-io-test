@@ -62,12 +62,12 @@ func main() {
 	}
 
 	var (
-		ethInvoker             *eth.EInvoker
-		bscInvoker             *eth.EInvoker
-		mscInvoker             *eth.EInvoker
-		o3Invoker              *eth.EInvoker
-		cmInvoker              *cosmos.CosmosInvoker
-		kaiInvoker, borInvoker *eth.EInvoker
+		ethInvoker                         *eth.EInvoker
+		bscInvoker                         *eth.EInvoker
+		mscInvoker                         *eth.EInvoker
+		o3Invoker                          *eth.EInvoker
+		cmInvoker                          *cosmos.CosmosInvoker
+		kaiInvoker, borInvoker, arbInvoker *eth.EInvoker
 	)
 	if config.DefConfig.EthChainID > 0 {
 		ethInvoker = eth.NewEInvoker(config.DefConfig.EthChainID)
@@ -91,6 +91,10 @@ func main() {
 
 	if config.DefConfig.PolygonBorChainID > 0 {
 		borInvoker = eth.NewEInvoker(config.DefConfig.PolygonBorChainID)
+	}
+
+	if config.DefConfig.ArbChainID > 0 {
+		arbInvoker = eth.NewEInvoker(config.DefConfig.ArbChainID)
 	}
 
 	//btcInvoker, err := btc.NewBtcInvoker(config.DefConfig.RchainJsonRpcAddress, config.DefConfig.RCWallet,
@@ -139,6 +143,9 @@ func main() {
 	}
 	if borInvoker != nil {
 		testframework.TFramework.SeBorInvoker(borInvoker)
+	}
+	if arbInvoker != nil {
+		testframework.TFramework.SetArbInvoker(arbInvoker)
 	}
 
 	//testframework.TFramework.SetBtcInvoker(btcInvoker)

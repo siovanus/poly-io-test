@@ -65,6 +65,7 @@ type TestFramework struct {
 	neoInvoker    *neo.NeoInvoker
 	kaiInvoker    *eth.EInvoker
 	borInvoker    *eth.EInvoker
+	arbInvoker    *eth.EInvoker
 }
 
 //NewTestFramework return a TestFramework instance
@@ -121,7 +122,7 @@ func (this *TestFramework) runTestList(testCaseList []TestCase, loopNumber int) 
 	defer this.onTestFinish(testCaseList)
 
 	ctx := NewTestFrameworkContext(this, testCaseList, this.rcSdk, this.ethInvoker, this.bscInvoker, this.mscInvoker, this.o3Invoker, this.btcInvoker,
-		this.ontInvoker, this.cosmosInvoker, this.neoInvoker, this.kaiInvoker, this.borInvoker)
+		this.ontInvoker, this.cosmosInvoker, this.neoInvoker, this.kaiInvoker, this.borInvoker, this.arbInvoker)
 	if this.ontInvoker != nil {
 		go MonitorOnt(ctx)
 	}
@@ -209,6 +210,10 @@ func (this *TestFramework) SeKaiInvoker(invoker *eth.EInvoker) {
 
 func (this *TestFramework) SeBorInvoker(invoker *eth.EInvoker) {
 	this.borInvoker = invoker
+}
+
+func (this *TestFramework) SetArbInvoker(invoker *eth.EInvoker) {
+	this.arbInvoker = invoker
 }
 
 //SetMSCInvoker instance to test framework

@@ -788,7 +788,7 @@ func SyncZILGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Accou
 		testcase.WaitPolyTx(txhash, poly)
 		log.Infof("successful to sync zil genesis header, ds block: %s, tx block: %s, ds comm: %+v\n", zilutil.EncodeHex(dsBlock.BlockHash[:]), zilutil.EncodeHex(txBlock.BlockHash[:]), dsComm)
 	}
-
+	return
 	// sycn poly network info to zilliqa cross chain manager
 	gB, err := poly.GetBlockByHeight(config.DefConfig.RCEpoch)
 	if err != nil {
@@ -2219,7 +2219,7 @@ func RegisterZIL(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 		panic(fmt.Errorf("RegisterZIL, failed to decode eccd '%s' : %v", config.DefConfig.ZilEccdImpl, err))
 	}
 
-	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.ZilChainID, 9, "zil",
+	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.ZilChainID, 17, "zil",
 		blkToWait, eccd, extraBytes, acc)
 
 	if err != nil {
