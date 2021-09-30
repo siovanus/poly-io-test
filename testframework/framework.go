@@ -142,6 +142,9 @@ func (this *TestFramework) runTestList(testCaseList []TestCase, loopNumber int) 
 	if this.borInvoker != nil {
 		go MonitorEthLikeChain(ctx, config.DefConfig.PolygonBorChainID)
 	}
+	if this.arbInvoker != nil {
+		go MonitorEthLikeChain(ctx, config.DefConfig.ArbChainID)
+	}
 	if this.btcInvoker != nil {
 		go MonitorBtc(ctx)
 	}
