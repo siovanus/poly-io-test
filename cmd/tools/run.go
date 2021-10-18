@@ -227,6 +227,10 @@ func main() {
 			if RegisterArb(poly, acc) {
 				ApproveRegisterSideChain(config.DefConfig.ArbChainID, poly, accArr)
 			}
+		case config.DefConfig.XdaiChainID:
+			if RegisterXdai(poly, acc) {
+				ApproveRegisterSideChain(config.DefConfig.XdaiChainID, poly, accArr)
+			}
 		case 0:
 			if RegisterBtcChain(poly, acc) {
 				ApproveRegisterSideChain(config.DefConfig.BtcChainID, poly, accArr)
@@ -275,6 +279,9 @@ func main() {
 			}
 			if RegisterArb(poly, acc) {
 				ApproveRegisterSideChain(config.DefConfig.ArbChainID, poly, accArr)
+			}
+			if RegisterXdai(poly, acc) {
+				ApproveRegisterSideChain(config.DefConfig.XdaiChainID, poly, accArr)
 			}
 		}
 	case "sync_genesis_header":
@@ -2036,6 +2043,35 @@ func registerOK(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 
 	testcase.WaitPolyTx(txhash, poly)
 	log.Infof("successful to register ok chain: ( txhash: %s )", txhash.ToHexString())
+
+	return true
+}
+
+func RegisterXdai(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
+
+	blkToWait := uint64(1)
+
+	eccd, err := hex.DecodeString(strings.Replace(config.DefConfig.XdaiEccd, "0x", "", 1))
+	if err != nil {
+		panic(fmt.Errorf("RegisterO3, failed to decode eccd '%s' : %v", config.DefConfig.XdaiEccd, err))
+	}
+
+	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.XdaiChainID, 0, "arb",
+		blkToWait, eccd, nil, acc)
+	if err != nil {
+		if strings.Contains(err.Error(), "already registered") {
+			log.Infof("chain %d already registered", config.DefConfig.XdaiChainID)
+			return false
+		}
+		if strings.Contains(err.Error(), "already requested") {
+			log.Infof("chain %d already requested", config.DefConfig.XdaiChainID)
+			return true
+		}
+		panic(fmt.Errorf("RegisterArb failed: %v", err))
+	}
+
+	testcase.WaitPolyTx(txhash, poly)
+	log.Infof("successful to register chain: ( txhash: %s )", txhash.ToHexString())
 
 	return true
 }

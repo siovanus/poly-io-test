@@ -58,6 +58,8 @@ type TestConfig struct {
 	PolygonHeimdallChainID  uint64
 	PolygonBorChainID       uint64
 	PolygonBorSignerChainID uint64
+	XdaiChainID             uint64
+	XdaiSignerChainID       uint64
 
 	BtcRestAddr                  string
 	BtcRestUser                  string
@@ -102,6 +104,9 @@ type TestConfig struct {
 	// arb urls
 	ArbURL        string
 	ArbPrivateKey string
+	// xdai urls
+	XdaiURL        string
+	XdaiPrivateKey string
 
 	// zil urls
 	ZilURL        string
@@ -262,6 +267,12 @@ type TestConfig struct {
 	ArbEccm      string
 	ArbEccmp     string
 	ArbLockProxy string
+
+	// xdai contracts
+	XdaiEccd      string
+	XdaiEccm      string
+	XdaiEccmp     string
+	XdaiLockProxy string
 
 	// zil contracts
 	ZilEccdProxy string
