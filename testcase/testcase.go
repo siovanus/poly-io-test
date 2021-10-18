@@ -1298,6 +1298,25 @@ func MscMxToMsc(ctx *testframework.TestFrameworkContext, status *testframework.C
 	return true
 }
 
+func GasToXdai(ctx *testframework.TestFrameworkContext, status *testframework.CaseStatus) bool {
+	for i := uint64(0); i < config.DefConfig.BatchTxNum; i++ {
+		amt := GetRandAmount(config.DefConfig.EthValLimit, 1)
+		for j := uint64(0); j < config.DefConfig.TxNumPerBatch; j++ {
+			if err := SendGasCrossXdai(ctx, status, amt); err != nil {
+				log.Errorf("EthToArb, SendGasCrossXdai error: %v", err)
+				return false
+			}
+		}
+		log.Infof("GasToXdai, send %d eth to xdai, waiting for confirmation...", amt)
+		WaitUntilClean(status)
+
+		log.Infof("GasToXdai, eth all received ( batch: %d )", i)
+	}
+
+	status.SetItSuccess(1)
+	return true
+}
+
 func EthToArb(ctx *testframework.TestFrameworkContext, status *testframework.CaseStatus) bool {
 	for i := uint64(0); i < config.DefConfig.BatchTxNum; i++ {
 		amt := GetRandAmount(config.DefConfig.EthValLimit, 1)

@@ -115,6 +115,8 @@ func getInvoker(ctx *TestFrameworkContext, chainID uint64) *eth.EInvoker {
 		return ctx.BorInvoker
 	case config.DefConfig.ArbChainID:
 		return ctx.ArbInvoker
+	case config.DefConfig.XdaiChainID:
+		return ctx.XdaiInvoker
 	default:
 		panic(fmt.Sprintf("getInvoker:unknown chain id:%d", chainID))
 	}
@@ -136,6 +138,8 @@ func getEccm(chainID uint64) string {
 		return config.DefConfig.BorEccm
 	case config.DefConfig.ArbChainID:
 		return config.DefConfig.ArbEccm
+	case config.DefConfig.XdaiChainID:
+		return config.DefConfig.XdaiEccm
 	default:
 		panic(fmt.Sprintf("getEccm:unknown chain id:%d", chainID))
 	}

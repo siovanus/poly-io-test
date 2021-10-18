@@ -330,6 +330,8 @@ func main() {
 			SyncPolygonHeimdallGenesisHeader(poly, accArr)
 		case config.DefConfig.PolygonBorChainID:
 			SyncPolygonBorGenesisHeader(poly, accArr)
+		case config.DefConfig.XdaiChainID:
+			SyncXdaiGenesisHeader(poly, accArr)
 		case 0:
 			SyncBtcGenesisHeader(poly, acc)
 			SyncEthGenesisHeader(poly, accArr)
@@ -344,6 +346,7 @@ func main() {
 			SyncOKGenesisHeader(poly, accArr)
 			SyncKaiGenesisHeader(poly, accArr)
 			SyncPolygonHeimdallGenesisHeader(poly, accArr)
+			SyncXdaiGenesisHeader(poly, accArr)
 		}
 
 	case "update_btc":
@@ -1405,6 +1408,59 @@ func SyncPolygonBorGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sd
 
 	tool.WaitTransactionConfirm(tx.Hash())
 	log.Infof("successful to sync poly genesis header to bor: ( txhash: %s )", tx.Hash().String())
+}
+
+func SyncXdaiGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Account) {
+	tool := eth.NewEthTools(config.DefConfig.XdaiURL)
+	eccmContract, err := eccm_abi.NewEthCrossChainManager(common3.HexToAddress(config.DefConfig.XdaiEccm), tool.GetEthClient())
+	if err != nil {
+		panic(err)
+	}
+	signer, err := eth.NewEthSigner(config.DefConfig.XdaiPrivateKey)
+	if err != nil {
+		panic(err)
+	}
+	nonce := eth.NewNonceManager(tool.GetEthClient()).GetAddressNonce(signer.Address)
+	gasPrice, err := tool.GetEthClient().SuggestGasPrice(context.Background())
+	if err != nil {
+		panic(fmt.Errorf("SyncXdaiGenesisHeader, get suggest gas price failed error: %s", err.Error()))
+	}
+	gasPrice = gasPrice.Mul(gasPrice, big.NewInt(5))
+	chainId, err := tool.GetEthClient().ChainID(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	auth := testcase.MakeEthAuthWithChainID(signer, nonce, gasPrice.Uint64(), uint64(800000), chainId)
+
+	gB, err := poly.GetBlockByHeight(config.DefConfig.RCEpoch)
+	if err != nil {
+		panic(err)
+	}
+	info := &vconfig.VbftBlockInfo{}
+	if err := json.Unmarshal(gB.Header.ConsensusPayload, info); err != nil {
+		panic(fmt.Errorf("commitGenesisHeader - unmarshal blockInfo error: %s", err))
+	}
+
+	var bookkeepers []keypair.PublicKey
+	for _, peer := range info.NewChainConfig.Peers {
+		keystr, _ := hex.DecodeString(peer.ID)
+		key, _ := keypair.DeserializePublicKey(keystr)
+		bookkeepers = append(bookkeepers, key)
+	}
+	bookkeepers = keypair.SortPublicKeys(bookkeepers)
+
+	publickeys := make([]byte, 0)
+	for _, key := range bookkeepers {
+		publickeys = append(publickeys, ont.GetOntNoCompressKey(key)...)
+	}
+
+	tx, err := eccmContract.InitGenesisBlock(auth, gB.Header.ToArray(), publickeys)
+	if err != nil {
+		panic(fmt.Sprintf("InitGenesisBlock failed:%v", err))
+	}
+
+	tool.WaitTransactionConfirm(tx.Hash())
+	log.Infof("successful to sync poly genesis header to xdai: ( txhash: %s )", tx.Hash().String())
 }
 
 func SyncPolygonHeimdallGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Account) {

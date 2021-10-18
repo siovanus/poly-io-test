@@ -2474,6 +2474,68 @@ func SendEthCrossArb(ctx *testframework.TestFrameworkContext, status *testframew
 	return nil
 }
 
+var XdaiSignerChainID uint64
+
+func SendGasCrossXdai(ctx *testframework.TestFrameworkContext, status *testframework.CaseStatus, amount uint64) error {
+	gasPrice, err := ctx.XdaiInvoker.ETHUtil.GetEthClient().SuggestGasPrice(context.Background())
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, get suggest gas price failed error: %s", err.Error())
+	}
+	//gasPrice = gasPrice.Mul(gasPrice, big.NewInt(5))
+
+	contractabi, err := abi.JSON(strings.NewReader(lock_proxy_abi.LockProxyABI))
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, abi.JSON error:" + err.Error())
+	}
+	rawFrom := ctx.XdaiInvoker.EthTestSigner.Address.Bytes()
+	assetaddress := ethcommon.HexToAddress("0000000000000000000000000000000000000000")
+	txData, err := contractabi.Pack("lock", assetaddress, uint64(config.DefConfig.XdaiChainID), rawFrom[:],
+		big.NewInt(int64(amount)))
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, contractabi.Pack error:" + err.Error())
+	}
+
+	contractAddr := ethcommon.HexToAddress(config.DefConfig.XdaiLockProxy)
+	callMsg := ethereum.CallMsg{
+		From: ctx.XdaiInvoker.EthTestSigner.Address, To: &contractAddr, Gas: 0, GasPrice: gasPrice,
+		Value: big.NewInt(int64(amount)), Data: txData,
+	}
+	gasLimit, err := ctx.XdaiInvoker.ETHUtil.GetEthClient().EstimateGas(context.Background(), callMsg)
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, estimate gas limit error: %s", err.Error())
+	}
+
+	nonce := ctx.XdaiInvoker.NM.GetAddressNonce(ctx.XdaiInvoker.EthTestSigner.Address)
+	tx := types.NewTransaction(nonce, contractAddr, big.NewInt(int64(amount)), gasLimit, gasPrice, txData)
+	bf := new(bytes.Buffer)
+	rlp.Encode(bf, tx)
+
+	rawtx := hexutil.Encode(bf.Bytes())
+	unsignedTx, err := eth.DeserializeTx(rawtx)
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, eth.DeserializeTx error: %s", err.Error())
+	}
+	if XdaiSignerChainID == 0 {
+		chainID, err := ctx.XdaiInvoker.ETHUtil.GetEthClient().ChainID(context.Background())
+		if err != nil {
+			return fmt.Errorf("SendGasCrossXdai, ChainID() error: %s", err.Error())
+		}
+		XdaiSignerChainID = chainID.Uint64()
+	}
+	signedtx, err := types.SignTx(unsignedTx, eth.NewEIP155Signer(big.NewInt(int64(XdaiSignerChainID))), ctx.XdaiInvoker.EthTestSigner.PrivateKey)
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, types.SignTx error: %s", err.Error())
+	}
+
+	err = ctx.XdaiInvoker.ETHUtil.GetEthClient().SendTransaction(context.Background(), signedtx)
+	if err != nil {
+		return fmt.Errorf("SendGasCrossXdai, send transaction error:%s", err.Error())
+	}
+	status.AddTx(signedtx.Hash().String()[2:], &testframework.TxInfo{"SendGasCrossXdai", time.Now()})
+	WaitTransactionConfirm(ctx.XdaiInvoker.ETHUtil.GetEthClient(), signedtx.Hash())
+	return nil
+}
+
 func SendMaticCrossBor(ctx *testframework.TestFrameworkContext, status *testframework.CaseStatus, amount uint64) error {
 	gasPrice, err := ctx.BorInvoker.ETHUtil.GetEthClient().SuggestGasPrice(context.Background())
 	if err != nil {

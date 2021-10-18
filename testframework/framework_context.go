@@ -36,37 +36,39 @@ type TestFrameworkContext struct {
 	RcSdk     *poly_go_sdk.PolySdk
 	Status    *CtxStatus
 	// invokers
-	EthInvoker *eth.EInvoker
-	BscInvoker *eth.EInvoker
-	MscInvoker *eth.EInvoker
-	O3Invoker  *eth.EInvoker
-	BtcInvoker *btc.BtcInvoker
-	OntInvoker *ont.OntInvoker
-	CMInvoker  *cosmos.CosmosInvoker
-	NeoInvoker *neo.NeoInvoker
-	KaiInvoker *eth.EInvoker
-	BorInvoker *eth.EInvoker
-	ArbInvoker *eth.EInvoker
+	EthInvoker  *eth.EInvoker
+	BscInvoker  *eth.EInvoker
+	MscInvoker  *eth.EInvoker
+	O3Invoker   *eth.EInvoker
+	BtcInvoker  *btc.BtcInvoker
+	OntInvoker  *ont.OntInvoker
+	CMInvoker   *cosmos.CosmosInvoker
+	NeoInvoker  *neo.NeoInvoker
+	KaiInvoker  *eth.EInvoker
+	BorInvoker  *eth.EInvoker
+	ArbInvoker  *eth.EInvoker
+	XdaiInvoker *eth.EInvoker
 }
 
 //NewTestFrameworkContext return a TestFrameworkContext instance
 func NewTestFrameworkContext(fw *TestFramework, caseArr []TestCase, rcSdk *poly_go_sdk.PolySdk, eInvkr, bscInvkr, mscInvkr, o3Invkr *eth.EInvoker,
-	btcInvkr *btc.BtcInvoker, ontInvkr *ont.OntInvoker, cmInvoker *cosmos.CosmosInvoker, neoInvoker *neo.NeoInvoker, kaiInvoker, borInvoker, arbInvoker *eth.EInvoker) *TestFrameworkContext {
+	btcInvkr *btc.BtcInvoker, ontInvkr *ont.OntInvoker, cmInvoker *cosmos.CosmosInvoker, neoInvoker *neo.NeoInvoker, kaiInvoker, borInvoker, arbInvoker, xdaiInvoker *eth.EInvoker) *TestFrameworkContext {
 	ctx := &TestFrameworkContext{
-		Framework:  fw,
-		Cases:      caseArr,
-		RcSdk:      rcSdk,
-		EthInvoker: eInvkr,
-		BscInvoker: bscInvkr,
-		MscInvoker: mscInvkr,
-		O3Invoker:  o3Invkr,
-		BtcInvoker: btcInvkr,
-		OntInvoker: ontInvkr,
-		CMInvoker:  cmInvoker,
-		NeoInvoker: neoInvoker,
-		KaiInvoker: kaiInvoker,
-		BorInvoker: borInvoker,
-		ArbInvoker: arbInvoker,
+		Framework:   fw,
+		Cases:       caseArr,
+		RcSdk:       rcSdk,
+		EthInvoker:  eInvkr,
+		BscInvoker:  bscInvkr,
+		MscInvoker:  mscInvkr,
+		O3Invoker:   o3Invkr,
+		BtcInvoker:  btcInvkr,
+		OntInvoker:  ontInvkr,
+		CMInvoker:   cmInvoker,
+		NeoInvoker:  neoInvoker,
+		KaiInvoker:  kaiInvoker,
+		BorInvoker:  borInvoker,
+		ArbInvoker:  arbInvoker,
+		XdaiInvoker: xdaiInvoker,
 	}
 	ctx.Status = NewCtxStatus(ctx)
 	return ctx
