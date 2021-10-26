@@ -9,3 +9,5 @@ test.go
 fisco_sdk.toml
 *.yaml
 .DS_Store
+*.dat
+tools

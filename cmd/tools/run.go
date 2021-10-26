@@ -1425,7 +1425,7 @@ func SyncXdaiGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Acco
 	if err != nil {
 		panic(fmt.Errorf("SyncXdaiGenesisHeader, get suggest gas price failed error: %s", err.Error()))
 	}
-	gasPrice = gasPrice.Mul(gasPrice, big.NewInt(5))
+	gasPrice = gasPrice.Mul(gasPrice, big.NewInt(1))
 	chainId, err := tool.GetEthClient().ChainID(context.Background())
 	if err != nil {
 		panic(err)
