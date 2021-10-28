@@ -2112,7 +2112,7 @@ func RegisterXdai(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 		panic(fmt.Errorf("RegisterO3, failed to decode eccd '%s' : %v", config.DefConfig.XdaiEccd, err))
 	}
 
-	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.XdaiChainID, 0, "arb",
+	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.XdaiChainID, 0, "fantom",
 		blkToWait, eccd, nil, acc)
 	if err != nil {
 		if strings.Contains(err.Error(), "already registered") {

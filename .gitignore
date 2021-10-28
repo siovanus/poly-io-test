@@ -1,6 +1,6 @@
 .idea/
 .idea/*
-.wallets/*
+wallets
 .alliance-wallets/*
 .vscode
 report/*
