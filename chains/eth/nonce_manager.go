@@ -54,7 +54,7 @@ func (this *NonceManager) GetAddressNonce(address common.Address) uint64 {
 		uintNonce, err := this.ethClient.PendingNonceAt(context.Background(), address)
 		if err != nil {
 			log.Infof("GetAddressNonce: cannot get account %s nonce, err: %s, set it to nil!",
-				address, err)
+				address.Hex(), err)
 		}
 		this.addressNonce[address] = uintNonce
 		nonce = uintNonce

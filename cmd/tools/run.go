@@ -1430,7 +1430,7 @@ func SyncXdaiGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Acco
 	if err != nil {
 		panic(err)
 	}
-	auth := testcase.MakeEthAuthWithChainID(signer, nonce, gasPrice.Uint64(), uint64(800000), chainId)
+	auth := testcase.MakeEthAuthWithChainID(signer, nonce, gasPrice.Uint64(), uint64(0), chainId)
 
 	gB, err := poly.GetBlockByHeight(config.DefConfig.RCEpoch)
 	if err != nil {
@@ -2112,7 +2112,7 @@ func RegisterXdai(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 		panic(fmt.Errorf("RegisterO3, failed to decode eccd '%s' : %v", config.DefConfig.XdaiEccd, err))
 	}
 
-	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.XdaiChainID, 0, "fantom",
+	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.XdaiChainID, config.DefConfig.Router, config.DefConfig.Name,
 		blkToWait, eccd, nil, acc)
 	if err != nil {
 		if strings.Contains(err.Error(), "already registered") {

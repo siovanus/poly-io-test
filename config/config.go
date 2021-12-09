@@ -59,6 +59,8 @@ type TestConfig struct {
 	PolygonBorChainID       uint64
 	PolygonBorSignerChainID uint64
 	XdaiChainID             uint64
+	Router                  uint64
+	Name                    string
 
 	BtcRestAddr                  string
 	BtcRestUser                  string

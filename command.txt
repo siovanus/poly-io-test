@@ -3,9 +3,10 @@ go build -o tools cmd/tools/run.go
 
 
 sync genesis header
-./tools -tool=sync_genesis_header -pwallets=poly.dev1.dat -ppwds=4cUYqGj2yib718E7ZmGQc -chainid=208 -conf=config_sync_genesis.json
+./tools -tool=sync_genesis_header -pwallets=wallets/wallet1.dat -ppwds=4cxYqGj2yib518E7Zm3Qc -chainid=300 -conf=config_sync_genesis.json
 
 
 register side chain
-./tools -tool=register_side_chain -pwallets=wallets/wallet2.dat,wallets/wallet3.dat,wallets/wallet4.dat,wallets/wallet5.dat,wallets/wallet6.dat,wallets/wallet7.dat -ppwds=4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc -chainid=208 -conf=config_register_side.json
+./tools -tool=register_side_chain -pwallets=wallets/wallet2.dat,wallets/wallet3.dat,wallets/wallet4.dat,wallets/wallet5.dat,wallets/wallet6.dat,wallets/wallet7.dat -ppwds=4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc -chainid=118 -conf=config_register_side.json
 
+./tools -tool=register_side_chain -pwallets=wallets/poly.dev2.dat,wallets/poly.dev3.dat,wallets/poly.dev4.dat,wallets/poly.dev5.dat,wallets/poly.dev6.dat,wallets/poly.dev7.dat -ppwds=4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc -chainid=218 -conf=config_register_side.json
