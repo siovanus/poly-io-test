@@ -2225,7 +2225,7 @@ func RegisterHeco(poly *poly_go_sdk.PolySdk, acc *poly_go_sdk.Account) bool {
 	}
 
 	fmt.Println("config.DefConfig.HecoChainID: ", config.DefConfig.HecoChainID, "extraBytes: ", string(extraBytes), "HecoEccd: ", config.DefConfig.HecoEccd)
-	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.HecoChainID, utils.HECO_ROUTER, "heco",
+	txhash, err := poly.Native.Scm.RegisterSideChainExt(acc.Address, config.DefConfig.HecoChainID, config.DefConfig.Router, config.DefConfig.Name,
 		blkToWait, eccd, extraBytes, acc)
 	if err != nil {
 		if strings.Contains(err.Error(), "already registered") {

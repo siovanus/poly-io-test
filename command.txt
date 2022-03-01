@@ -6,12 +6,12 @@ sync genesis header vote
 ./tools -tool=sync_genesis_header -pwallets=wallets/wallet1.dat -ppwds=4cxYqGj2yib518E7Zm3Qc -chainid=502 -conf=config_sync_genesis.json
 
 sync genesis header eth
-./tools -tool=sync_genesis_header -pwallets=wallets/wallet1.dat,wallets/wallet2.dat,wallets/wallet3.dat,wallets/wallet4.dat,wallets/wallet5.dat,wallets/wallet6.dat,wallets/wallet7.dat -ppwds=4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc -chainid=302 -conf=config_sync_genesis_eth.json
+./tools -tool=sync_genesis_header -pwallets=wallets/wallet1.dat,wallets/wallet2.dat,wallets/wallet3.dat,wallets/wallet4.dat,wallets/wallet5.dat,wallets/wallet6.dat,wallets/wallet7.dat -ppwds=4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc -chainid=600 -conf=config_sync_genesis_heco.json
 
 ./tools -tool=sync_genesis_header -pwallets=wallets/poly.dev1.dat,wallets/poly.dev2.dat,wallets/poly.dev3.dat,wallets/poly.dev4.dat,wallets/poly.dev5.dat,wallets/poly.dev6.dat,wallets/poly.dev7.dat -ppwds=4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc -chainid=302 -conf=config_sync_genesis_eth.json
 
 
 register side chain
-./tools -tool=register_side_chain -pwallets=wallets/wallet2.dat,wallets/wallet3.dat,wallets/wallet4.dat,wallets/wallet5.dat,wallets/wallet6.dat,wallets/wallet7.dat -ppwds=4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc -chainid=502 -conf=config_register_side.json
+./tools -tool=register_side_chain -pwallets=wallets/wallet2.dat,wallets/wallet3.dat,wallets/wallet4.dat,wallets/wallet5.dat,wallets/wallet6.dat,wallets/wallet7.dat -ppwds=4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc,4cxYqGj2yib518E7Zm3Qc -chainid=600 -conf=config_register_side.json
 
 ./tools -tool=register_side_chain -pwallets=wallets/poly.dev2.dat,wallets/poly.dev3.dat,wallets/poly.dev4.dat,wallets/poly.dev5.dat,wallets/poly.dev6.dat,wallets/poly.dev7.dat -ppwds=4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc,4cUYqGj2yib718E7ZmGQc -chainid=320 -conf=config_register_side.json
