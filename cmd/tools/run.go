@@ -1265,6 +1265,9 @@ func SyncBSCGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Accou
 	}
 
 	tx, err := eccmContract.InitGenesisBlock(auth, gB.Header.ToArray(), publickeys)
+	if err != nil {
+		panic(fmt.Errorf("commitGenesisHeader to bsc - InitGenesisBlock error: %s", err))
+	}
 	tool.WaitTransactionConfirm(tx.Hash())
 	log.Infof("successful to sync poly genesis header to BSC: ( txhash: %s )", tx.Hash().String())
 }
