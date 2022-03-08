@@ -1240,7 +1240,12 @@ func SyncBSCGenesisHeader(poly *poly_go_sdk.PolySdk, accArr []*poly_go_sdk.Accou
 		panic(fmt.Errorf("SyncBSCGenesisHeader, get suggest gas price failed error: %s", err.Error()))
 	}
 	gasPrice = gasPrice.Mul(gasPrice, big.NewInt(5))
-	auth := testcase.MakeEthAuth(signer, nonce, gasPrice.Uint64(), uint64(8000000))
+	chainId, err := tool.GetEthClient().ChainID(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	//auth := testcase.MakeEthAuth(signer, nonce, gasPrice.Uint64(), uint64(8000000))
+	auth := testcase.MakeEthAuthWithChainID(signer, nonce, gasPrice.Uint64(), uint64(8000000), chainId)
 
 	gB, err := poly.GetBlockByHeight(config.DefConfig.RCEpoch)
 	if err != nil {
